@@ -1,27 +1,58 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView, 
   StatusBar,
   StyleSheet,
+  Text,
   View,
-  FlatList
+  FlatList,
+  ActivityIndicator
 } from 'react-native';
+import Config from 'react-native-config';
+
 import { Header } from '../header/header-component.js';
 import { HorizontalImage } from '../images/horizontal-image-component.js';
 
+
 export const HighlightsPage = () => {
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch(
+      `https://api.themoviedb.org/3/discover/movie\?api_key\=${Config.API_KEY}\&language\=en-US\&sort_by\=release_date.desc\&include_adult\=false\&include_video\=false\&page\=1`, 
+      {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        }
+      })
+      .then((response) => response.json())
+      .then((json) => setData(json.results))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <Header title="Highlights"/>
         <View style={styles.container}>
-          <FlatList
-            style={styles.list}
-            data={[{id: 1}, {id: 2}, {id: 3}]}
-            keyExtractor={item => item.id.toString()}
-            renderItem={() => <HorizontalImage />}
-          />
+          {isLoading ? <ActivityIndicator/> : (
+            <FlatList
+              style={styles.list}
+              data={data}
+              keyExtractor={({ id }, index) => id.toString()}
+              renderItem={({item}) => {
+                return (
+                  <View>
+                    <HorizontalImage />
+                    <Text>{item.title}</Text>
+                  </View>
+              )}
+              }
+            />
+          )}
         </View>
       </SafeAreaView>
     </>
