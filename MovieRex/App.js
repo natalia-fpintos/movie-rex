@@ -1,16 +1,18 @@
 import React from 'react';
-import { SafeAreaView, StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { HighlightsPage } from './js/highlights/highlights-page.js';
 
+const Tab = createBottomTabNavigator();
+
 const App = () => {
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <HighlightsPage />
-      </SafeAreaView>
-    </>
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Highlights" component={HighlightsPage} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 };
 
