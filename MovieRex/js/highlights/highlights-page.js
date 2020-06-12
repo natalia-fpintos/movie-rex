@@ -20,7 +20,7 @@ export const HighlightsPage = () => {
 
   useEffect(() => {
     fetch(
-      `https://api.themoviedb.org/3/discover/movie\?api_key\=${Config.API_KEY}\&language\=en-US\&sort_by\=release_date.desc\&include_adult\=false\&include_video\=false\&page\=1`, 
+      `https://api.themoviedb.org/3/discover/movie\?api_key\=${Config.API_KEY}\&language\=en-UK&region=GB&sort_by=release_date.desc&include_adult=false&include_video=false&page=1&year=2020`, 
       {
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
@@ -44,11 +44,11 @@ export const HighlightsPage = () => {
               data={data}
               keyExtractor={({ id }, index) => id.toString()}
               renderItem={({item}) => {
+                if (!item.backdrop_path) {
+                  return null;
+                }
                 return (
-                  <View>
-                    <HorizontalImage />
-                    <Text>{item.title}</Text>
-                  </View>
+                  <HorizontalImage backdropPath={item.backdrop_path} title={item.title} />
               )}
               }
             />
