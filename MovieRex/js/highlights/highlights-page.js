@@ -43,6 +43,7 @@ export const HighlightsPage = () => {
               style={styles.list}
               data={data}
               keyExtractor={({ id }, index) => id.toString()}
+              contentContainerStyle={{ paddingBottom: 200}}
               renderItem={({item}) => {
                 if (!item.backdrop_path) {
                   return null;
