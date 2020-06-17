@@ -10,14 +10,14 @@ import { Header } from '../header/header-component.js';
 import { GenreButton } from '../buttons/genre-button.js';
 
 const genres = [
-  {key: "Comedy"}, 
-  {key: "Action"}, 
-  {key: "Sci-fi"}, 
-  {key: "Horror"}, 
-  {key: "Thriller"}, 
-  {key: "Drama"}, 
-  {key: "Romantic"}, 
-  {key: "Animation"}
+  {key: "Comedy", emoji: 'rolling_on_the_floor_laughing'}, 
+  {key: "Action", emoji: 'sunglasses'}, 
+  {key: "Sci-fi", emoji: 'rocket'}, 
+  {key: "Horror", emoji: 'scream'}, 
+  {key: "Thriller", emoji: 'exploding_head'}, 
+  {key: "Drama", emoji: 'cry'}, 
+  {key: "Romantic", emoji: 'heart_eyes'}, 
+  {key: "Animation", emoji: 'writing_hand'}
 ]
 
 const numColumns = 2;
@@ -44,7 +44,7 @@ export const GenresPage = () => {
 const styles = StyleSheet.create({
   container: {
     width: 'auto',
-    marginVertical: 20,
+    marginVertical: 10,
     paddingHorizontal: 24
   }
 });
