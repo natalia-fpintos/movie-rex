@@ -12,13 +12,14 @@ import Config from 'react-native-config';
 import { VerticalImage } from '../images/vertical-image-component.js'
 
 
-export const AssetPage = () => {
+export const AssetPage = ({ route }) => {
+  const { id } = route.params;
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
   useEffect(() => {
     fetch(
-      `https://api.themoviedb.org/3/movie/340102?api_key\=${Config.API_KEY}&language=en-UK`,
+      `https://api.themoviedb.org/3/movie/${id}?api_key\=${Config.API_KEY}&language=en-UK`,
       {
         headers: {
           'Content-Type': 'application/json;charset=utf-8'

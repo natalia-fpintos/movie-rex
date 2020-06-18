@@ -16,7 +16,7 @@ const Tab = createBottomTabNavigator();
 
 const HighlightsStack = createNativeStackNavigator();
 
-function HighlightsStackScreen() {
+const HighlightsStackScreen = () => {
   return (
     <HighlightsStack.Navigator>
       <HighlightsStack.Screen
@@ -27,7 +27,7 @@ function HighlightsStackScreen() {
       <HighlightsStack.Screen name="Asset" component={AssetPage} />
     </HighlightsStack.Navigator>
   );
-}
+};
 
 const App = () => {
   return (
@@ -57,7 +57,8 @@ const App = () => {
         tabBarOptions={{
           activeTintColor: '#2daeeb',
           inactiveTintColor: 'gray'
-        }}>
+        }}
+      >
         <Tab.Screen name="Highlights" component={HighlightsStackScreen} />
         <Tab.Screen name="Genres" component={GenresPage} />
       </Tab.Navigator>

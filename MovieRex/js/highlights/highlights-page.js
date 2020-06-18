@@ -3,7 +3,6 @@ import {
   SafeAreaView, 
   StatusBar,
   StyleSheet,
-  Text,
   View,
   FlatList,
   ActivityIndicator
@@ -31,7 +30,6 @@ export const HighlightsPage = ({ navigation }) => {
       .finally(() => setLoading(false));
   }, []);
 
-  debugger
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -49,8 +47,8 @@ export const HighlightsPage = ({ navigation }) => {
                 return (
                   <HorizontalImage 
                     backdropPath={item.backdrop_path} 
-                    navigation={navigation} 
                     title={item.title}
+                    onPress={() => navigation.navigate('Asset', { id: item.id })}
                   />
               )}
               }

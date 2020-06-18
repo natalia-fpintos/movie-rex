@@ -8,11 +8,11 @@ import {
 
 import LinearGradient from 'react-native-linear-gradient';
 
-export const HorizontalImage = ({ backdropPath, title, navigation }) => {
+export const HorizontalImage = ({ backdropPath, title, onPress }) => {
   return (
     <TouchableOpacity 
       style={styles.container}
-      onPress={() => navigation.navigate('Asset')}
+      onPress={onPress}
     >
       <ImageBackground
         style={styles.horizontalImage}

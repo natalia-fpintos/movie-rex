@@ -20,8 +20,12 @@ export const VerticalImage = props => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    marginVertical: 10,
+    height: 450
+  },
   verticalImage: {
-    height: 500,
-    width: 'auto'
+    height: '100%',
+    resizeMode: 'contain'
   }
 });
