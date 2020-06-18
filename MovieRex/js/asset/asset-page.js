@@ -38,7 +38,7 @@ export const AssetPage = ({ route }) => {
         <View style={styles.container}>
           {isLoading ? <ActivityIndicator/> : (
             <ScrollView>
-              <VerticalImage movieInfo={data} />
+              <VerticalImage poster={data.poster_path} backdrop={data.backdrop_path} />
             </ScrollView>
           )}
         </View>

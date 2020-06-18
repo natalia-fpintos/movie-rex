@@ -5,9 +5,8 @@ import {
   Image,
 } from 'react-native';
 
-export const VerticalImage = props => {
-  const { movieInfo } = props;
-  const movieImage = movieInfo.poster_path ? movieInfo.poster_path : movieInfo.backdrop_path;
+export const VerticalImage = ({ poster, backdrop }) => {
+  const movieImage = poster ? poster : backdrop;
 
   return (
     <View style={styles.container}>
