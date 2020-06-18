@@ -1,31 +1,32 @@
 import React from 'react';
 import {
   StyleSheet,
-  View,
+  TouchableOpacity,
   Text,
   ImageBackground,
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 
-export const HorizontalImage = props => {
-  const { backdropPath, title } = props;
-  debugger
+export const HorizontalImage = ({ backdropPath, title, navigation }) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity 
+      style={styles.container}
+      onPress={() => navigation.navigate('Asset')}
+    >
       <ImageBackground
         style={styles.horizontalImage}
         source={{ uri: `https://image.tmdb.org/t/p/w500${backdropPath}` }}
       >
         <LinearGradient 
           colors={['#ffffff00', '#55555500', '#000000dd']} 
-          locations={[0.7, 0.8, 1]}
+          locations={[0.5, 0.6, 1]}
           style={styles.linearGradient}
         >
           <Text style={styles.movieTitle}>{title}</Text>
         </LinearGradient>
       </ImageBackground>
-    </View>
+    </TouchableOpacity>
   );
 };
 

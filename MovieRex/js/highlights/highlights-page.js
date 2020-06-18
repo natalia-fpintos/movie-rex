@@ -10,17 +10,16 @@ import {
 } from 'react-native';
 import Config from 'react-native-config';
 
-import { Header } from '../header/header-component.js';
 import { HorizontalImage } from '../images/horizontal-image-component.js';
 
 
-export const HighlightsPage = () => {
+export const HighlightsPage = ({ navigation }) => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
   useEffect(() => {
     fetch(
-      `https://api.themoviedb.org/3/discover/movie\?api_key\=${Config.API_KEY}\&language\=en-UK&region=GB&sort_by=release_date.desc&include_adult=false&include_video=false&page=1&year=2020`, 
+      `https://api.themoviedb.org/3/discover/movie\?api_key\=${Config.API_KEY}\&language\=en-UK&region=GB&sort_by=release_date.desc&include_adult=false&include_video=false&page=1&year=2020&with_release_type=4&primary_release_date.lte=2020-06-18`, 
       {
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
@@ -32,24 +31,27 @@ export const HighlightsPage = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  debugger
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
-        <Header title="Highlights"/>
         <View style={styles.container}>
           {isLoading ? <ActivityIndicator/> : (
             <FlatList
               style={styles.list}
               data={data}
               keyExtractor={({ id }, index) => id.toString()}
-              contentContainerStyle={{ paddingBottom: 200}}
               renderItem={({item}) => {
                 if (!item.backdrop_path) {
                   return null;
                 }
                 return (
-                  <HorizontalImage backdropPath={item.backdrop_path} title={item.title} />
+                  <HorizontalImage 
+                    backdropPath={item.backdrop_path} 
+                    navigation={navigation} 
+                    title={item.title}
+                  />
               )}
               }
             />
