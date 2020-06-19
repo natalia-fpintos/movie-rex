@@ -48,7 +48,7 @@ export const HighlightsPage = ({ navigation }) => {
                   <HorizontalImage 
                     backdropPath={item.backdrop_path} 
                     title={item.title}
-                    onPress={() => navigation.navigate('Asset', { id: item.id })}
+                    onPress={() => navigation.navigate('Asset', { id: item.id, name: item.title })}
                   />
               )}
               }

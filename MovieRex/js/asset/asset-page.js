@@ -96,7 +96,7 @@ export const AssetPage = ({ navigation, route }) => {
                   <HorizontalImage 
                     backdropPath={item.backdrop_path} 
                     title={item.title}
-                    onPress={() => navigation.push('Asset', { id: item.id })}
+                    onPress={() => navigation.push('Asset', { id: item.id, name: item.title })}
                   />
               )}
               }

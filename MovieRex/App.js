@@ -24,7 +24,7 @@ const HighlightsStackScreen = () => {
         name="Highlights"
         component={HighlightsPage}
       />
-      <HighlightsStack.Screen name="Asset" component={AssetPage} />
+      <HighlightsStack.Screen name="Asset" component={AssetPage} options={({ route }) => ({ title: route.params.name })} />
     </HighlightsStack.Navigator>
   );
 };
