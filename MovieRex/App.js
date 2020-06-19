@@ -8,6 +8,7 @@ import { HighlightsPage } from './js/highlights/highlights-page.js';
 import { AssetPage } from './js/asset/asset-page.js';
 import { GenresPage } from './js/genres/genres-page.js';
 import { ResultsPage } from './js/results/results-page.js';
+import { SearchPage } from './js/search/search-page.js';
 
 import { enableScreens } from 'react-native-screens';
 
@@ -17,6 +18,7 @@ const Tab = createBottomTabNavigator();
 
 const HighlightsStack = createNativeStackNavigator();
 const GenresStack = createNativeStackNavigator();
+const SearchStack = createNativeStackNavigator();
 
 const HighlightsStackScreen = () => {
   return (
@@ -42,6 +44,20 @@ const GenresStackScreen = () => {
       <GenresStack.Screen name="SearchResults" component={ResultsPage} options={({ route }) => ({ title: route.params.genre })} />
       <GenresStack.Screen name="Asset" component={AssetPage} options={({ route }) => ({ title: route.params.name })} />
     </GenresStack.Navigator>
+  );
+};
+
+const SearchStackScreen = () => {
+  return (
+    <SearchStack.Navigator>
+      <SearchStack.Screen
+        options={{ headerLargeTitle: true }}
+        name="Search"
+        component={SearchPage}
+      />
+      <SearchStack.Screen name="SearchResults" component={ResultsPage} options={({ route }) => ({ title: route.params.searchTerm })} />
+      <SearchStack.Screen name="Asset" component={AssetPage} options={({ route }) => ({ title: route.params.name })} />
+    </SearchStack.Navigator>
   );
 };
 
@@ -76,6 +92,7 @@ const App = () => {
         }}
       >
         <Tab.Screen name="Highlights" component={HighlightsStackScreen} />
+        <Tab.Screen name="Search" component={SearchStackScreen} />
         <Tab.Screen name="Genres" component={GenresStackScreen} />
       </Tab.Navigator>
     </NavigationContainer>
