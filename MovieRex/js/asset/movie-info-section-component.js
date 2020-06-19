@@ -50,7 +50,10 @@ export const MovieInfoSection = ({ movieInfo, providers }) => {
     <View style={styles.container}>
       <View style={styles.hairlineDivider}>
         <MovieDetails title={movieInfo.title} genre={genre} year={year} durationHours={durationHours} durationMinutes={durationMinutes} reviews={reviews} />
-        <WhereToWatch providers={providers} />
+        {providers.length > 0
+          ? <WhereToWatch providers={providers} />
+          : null
+        }
       </View>
     </View>
   );

@@ -87,6 +87,7 @@ export const AssetPage = ({ navigation, route }) => {
               data={movies.results}
               keyExtractor={({ id }, index) => id.toString()}
               style={styles.contentWrapper}
+              ListEmptyComponent={ () => <Text style={styles.moviesNotFound}>No movies found</Text>}
               renderItem={({item}) => {
                 if (!item.backdrop_path) {
                   return null;
@@ -123,5 +124,10 @@ const styles = StyleSheet.create({
   },
   contentWrapper: {
     marginHorizontal: 32
+  },
+  moviesNotFound: {
+    fontSize: 16,
+    color: '#5C5C5C',
+    paddingLeft: 8
   }
 });
