@@ -8,6 +8,25 @@ import {
 } from 'react-native';
 
 
+const MovieDetails = ({ title, genre, year, durationHours, durationMinutes, reviews }) => {
+  return (
+    <View style={styles.content}>
+      <Text style={styles.movieTitle}>{ title }</Text>
+      <View style={styles.row}>
+        <Text style={{ ...styles.movieDetails, ...styles.detailsText }}>{genre}</Text>
+        <Text style={{ ...styles.detailsText, ...styles.separator }}>•</Text>
+        <Text style={{ ...styles.movieDetails, ...styles.detailsText }}>{year}</Text>
+        <Text style={{ ...styles.detailsText, ...styles.separator }}>•</Text>
+        <Text style={{ ...styles.movieDetails, ...styles.detailsText }}>{durationHours}h {durationMinutes}m</Text>
+      </View>
+      <View style={styles.row}>
+        <Image source={require('../../images/tomato.png')} style={styles.tomato} />
+        <Text style={styles.detailsText}>{reviews}</Text>
+      </View>
+    </View>
+  );
+};
+
 export const MovieInfoSection = ({ movieInfo, providers }) => {
   const genre = movieInfo.genres[0].name;
   const year = movieInfo.release_date.split('-')[0];
@@ -18,20 +37,7 @@ export const MovieInfoSection = ({ movieInfo, providers }) => {
   return (
     <View style={styles.container}>
       <View style={styles.hairlineDivider}>
-        <View style={styles.content}>
-          <Text style={styles.movieTitle}>{ movieInfo.title }</Text>
-          <View style={styles.row}>
-            <Text style={{ ...styles.movieDetails, ...styles.detailsText }}>{genre}</Text>
-            <Text style={{ ...styles.detailsText, ...styles.separator }}>•</Text>
-            <Text style={{ ...styles.movieDetails, ...styles.detailsText }}>{year}</Text>
-            <Text style={{ ...styles.detailsText, ...styles.separator }}>•</Text>
-            <Text style={{ ...styles.movieDetails, ...styles.detailsText }}>{durationHours}h {durationMinutes}m</Text>
-          </View>
-          <View style={styles.row}>
-            <Image source={require('../../images/tomato.png')} style={styles.tomato} />
-            <Text style={styles.detailsText}>{reviews}</Text>
-          </View>
-        </View>
+        <MovieDetails title={movieInfo.title} genre={genre} year={year} durationHours={durationHours} durationMinutes={durationMinutes} reviews={reviews} />
         <View style={styles.content}>
           <Text style={{ ...styles.movieDetails, ...styles.detailsText }}>Where to watch:</Text>
           <FlatList
@@ -39,6 +45,7 @@ export const MovieInfoSection = ({ movieInfo, providers }) => {
             numColumns={3}
             keyExtractor={({ item, index }) => index}
             renderItem={item => <Image source={{ uri: item.item.icon }} style={styles.providerLogo} />}
+            ListEmptyComponent={<Text style={styles.detailsText}>Not available yet</Text>}
           />
         </View>
       </View>
