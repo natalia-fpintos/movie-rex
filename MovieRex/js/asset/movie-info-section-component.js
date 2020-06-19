@@ -58,19 +58,17 @@ export const MovieInfoSection = ({ movieInfo, providers }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 500,
-    marginVertical: 16,
-    paddingHorizontal: 24,
+    marginTop: 16
   },
   content: {
-    marginHorizontal: 8,
-    marginBottom: 32
+    marginBottom: 16
   },
   hairlineDivider: {
     paddingBottom: 5,
     paddingLeft: 8,
     borderBottomWidth: 0.5,
-    borderBottomColor: '#C4C4C4'
+    borderBottomColor: '#C4C4C4',
+    marginBottom: 16
   },
   movieTitle: {
     fontSize: 18,
