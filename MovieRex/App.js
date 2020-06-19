@@ -7,6 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { HighlightsPage } from './js/highlights/highlights-page.js';
 import { AssetPage } from './js/asset/asset-page.js';
 import { GenresPage } from './js/genres/genres-page.js';
+import { ResultsPage } from './js/results/results-page.js';
 
 import { enableScreens } from 'react-native-screens';
 
@@ -15,6 +16,7 @@ enableScreens();
 const Tab = createBottomTabNavigator();
 
 const HighlightsStack = createNativeStackNavigator();
+const GenresStack = createNativeStackNavigator();
 
 const HighlightsStackScreen = () => {
   return (
@@ -26,6 +28,20 @@ const HighlightsStackScreen = () => {
       />
       <HighlightsStack.Screen name="Asset" component={AssetPage} options={({ route }) => ({ title: route.params.name })} />
     </HighlightsStack.Navigator>
+  );
+};
+
+const GenresStackScreen = () => {
+  return (
+    <GenresStack.Navigator>
+      <GenresStack.Screen
+        options={{ headerLargeTitle: true }}
+        name="Genres"
+        component={GenresPage}
+      />
+      <GenresStack.Screen name="SearchResults" component={ResultsPage} options={({ route }) => ({ title: route.params.genre })} />
+      <GenresStack.Screen name="Asset" component={AssetPage} options={({ route }) => ({ title: route.params.name })} />
+    </GenresStack.Navigator>
   );
 };
 
@@ -60,7 +76,7 @@ const App = () => {
         }}
       >
         <Tab.Screen name="Highlights" component={HighlightsStackScreen} />
-        <Tab.Screen name="Genres" component={GenresPage} />
+        <Tab.Screen name="Genres" component={GenresStackScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
