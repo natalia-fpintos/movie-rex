@@ -32,7 +32,7 @@ const WhereToWatch = ({ providers }) => {
       <Text style={{ ...styles.movieDetails, ...styles.detailsText, ...styles.watchText }}>Where to watch:</Text>
       <View style={{ ...styles.row, ...styles.tiles }}>
         {providers.length > 0
-          ? providers.map(item => <Image source={{ uri: item.icon }} style={styles.providerLogo} />)
+          ? providers.map(item => <Image key={item.id} source={{ uri: item.icon }} style={styles.providerLogo} />)
           : <Text style={styles.detailsText}>Not available yet</Text>}
       </View>
     </View>
