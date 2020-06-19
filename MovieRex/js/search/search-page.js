@@ -11,12 +11,83 @@ import {
 import Config from 'react-native-config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { HorizontalImage } from '../images/horizontal-image-component.js';
-import { TextInput } from 'react-native-gesture-handler';
+import { SmallHorizontalImage } from '../images/small-horizontal-image-component.js';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+
+const SearchBar = ({ searchInput, setSearchInput, searchAPI }) => {
+  return (
+    <View style={styles.searchBar}>
+      <Ionicons
+        name="ios-search"
+        style={styles.searchIcon}
+        size={20}
+        color="gray"
+      />
+      <TextInput
+        style={styles.search}
+        value={searchInput}
+        placeholder={'Search...'}
+        onChangeText={newValue => {
+          setSearchInput(newValue);
+          searchAPI(newValue);
+        }}
+      />
+      <TouchableOpacity
+        onPress={() => {
+          setSearchInput('');
+          searchAPI('');
+        }}
+      >
+        <Ionicons
+          name="ios-close-circle"
+          style={styles.resetSearchIcon}
+          size={20}
+          color="gray"
+        />
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const SearchResults = ({ navigation, data, searchTerm }) => {
+  return (
+    <>
+      {data.length > 3 ? (
+        <TouchableOpacity
+          onPress={() =>
+            navigation.push('SearchResults', { data: data, searchTerm: searchTerm })
+          }
+        >
+          <Text style={styles.link}>See all</Text>
+        </TouchableOpacity>
+      ) : null}
+      {data.length > 0 ? (
+        data
+          .slice(0, 3)
+          .map(item => <ResultRow navigation={navigation} item={item} />)
+      ) : (
+        <Text style={styles.moviesNotFound}>No movies found</Text>
+      )}
+    </>
+  );
+};
+
+const ResultRow = ({ navigation, item }) => {
+  return (
+    <TouchableOpacity
+      style={{ ...styles.container, ...styles.searchResults }}
+      onPress={() =>
+        navigation.push('Asset', { id: item.id, name: item.title })
+      }
+    >
+      <SmallHorizontalImage backdropPath={item.backdrop_path} />
+      <Text style={styles.movieTitle}>{item.title}</Text>
+    </TouchableOpacity>
+  );
+};
 
 export const SearchPage = ({ navigation }) => {
   const [searchInput, setSearchInput] = useState('');
-  const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
   const searchAPI = searchTerm => {
@@ -32,9 +103,10 @@ export const SearchPage = ({ navigation }) => {
         }
       )
         .then(response => response.json())
-        .then(json => setData(json.results))
-        .catch(error => console.error(error))
-        .finally(() => setLoading(false));
+        .then(json =>
+          setData(json.results.filter(item => item.backdrop_path !== null))
+        )
+        .catch(error => console.error(error));
     } else {
       setData([]);
     }
@@ -45,41 +117,15 @@ export const SearchPage = ({ navigation }) => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <View style={styles.container}>
-          <View style={styles.searchBar}>
-            <Ionicons name="ios-search" style={styles.searchIcon} size={20} color="gray" />
-            <TextInput
-              style={styles.search}
-              value={searchInput}
-              placeholder={'Search...'}
-              onChangeText={newValue => {
-                setSearchInput(newValue);
-                searchAPI(newValue);
-              }}
-            />
-          </View>
-          <View style={styles.hairlineDivider}>
-            <Text style={styles.movieTitle}>Search results</Text>
-          </View>
-          <FlatList
-            data={data.slice(0, 3)}
-            keyExtractor={({ id }, index) => id.toString()}
-            style={styles.contentWrapper}
-            ListEmptyComponent={() => <Text style={styles.moviesNotFound}>No movies found</Text>}
-            renderItem={({ item }) => {
-              if (!item.backdrop_path) {
-                return null;
-              }
-              return (
-                <HorizontalImage
-                  backdropPath={item.backdrop_path}
-                  title={item.title}
-                  onPress={() =>
-                    navigation.push('Asset', { id: item.id, name: item.title })
-                  }
-                />
-              );
-            }}
+          <SearchBar
+            searchInput={searchInput}
+            setSearchInput={setSearchInput}
+            searchAPI={searchAPI}
           />
+          <View style={styles.hairlineDivider}>
+            <Text style={styles.sectionTitle}>Search results</Text>
+          </View>
+          <SearchResults navigation={navigation} data={data} searchTerm={searchInput} />
         </View>
       </SafeAreaView>
     </>
@@ -91,6 +137,10 @@ const styles = StyleSheet.create({
     width: 'auto',
     margin: 24
   },
+  searchResults: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   search: {
     flex: 1,
     fontSize: 16
@@ -101,19 +151,30 @@ const styles = StyleSheet.create({
     borderColor: '#5C5C5C',
     borderRadius: 20,
     height: 40,
-    padding: 8,
+    padding: 8
   },
   searchIcon: {
     alignSelf: 'center',
     marginRight: 8,
     marginLeft: 4
   },
-  movieTitle: {
+  resetSearchIcon: {
+    alignSelf: 'center',
+    marginRight: 4,
+    marginLeft: 8
+  },
+  sectionTitle: {
     fontSize: 24,
     fontWeight: '600',
     marginBottom: 8,
     marginTop: 50,
     paddingHorizontal: 8
+  },
+  movieTitle: {
+    fontWeight: '600',
+    paddingHorizontal: 16,
+    flex: 1,
+    flexWrap: 'wrap'
   },
   hairlineDivider: {
     paddingBottom: 5,
@@ -121,5 +182,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
     borderBottomColor: '#C4C4C4',
     marginBottom: 16
+  },
+  link: {
+    alignSelf: 'flex-end',
+    color: '#2daeeb',
+    textDecorationLine: 'underline'
   }
 });

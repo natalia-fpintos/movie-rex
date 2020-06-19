@@ -15,8 +15,7 @@ import { HorizontalImage } from '../images/horizontal-image-component.js';
 export const ResultsPage = ({ route, navigation }) => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const genre = route.params.genre;
-  const genreId = route.params.genreId;
+  const { genre, genreId } = route.params;
 
   useEffect(() => {
     fetch(
