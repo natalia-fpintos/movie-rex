@@ -4,7 +4,6 @@ import {
   View,
   Text,
   Image,
-  FlatList
 } from 'react-native';
 
 
@@ -27,6 +26,19 @@ const MovieDetails = ({ title, genre, year, durationHours, durationMinutes, revi
   );
 };
 
+const WhereToWatch = ({ providers }) => {
+  return (
+    <View style={styles.content}>
+      <Text style={{ ...styles.movieDetails, ...styles.detailsText, ...styles.watchText }}>Where to watch:</Text>
+      <View style={{ ...styles.row, ...styles.tiles }}>
+        {providers.length > 0
+          ? providers.map(item => <Image source={{ uri: item.icon }} style={styles.providerLogo} />)
+          : <Text style={styles.detailsText}>Not available yet</Text>}
+      </View>
+    </View>
+  );
+};
+
 export const MovieInfoSection = ({ movieInfo, providers }) => {
   const genre = movieInfo.genres[0].name;
   const year = movieInfo.release_date.split('-')[0];
@@ -38,14 +50,7 @@ export const MovieInfoSection = ({ movieInfo, providers }) => {
     <View style={styles.container}>
       <View style={styles.hairlineDivider}>
         <MovieDetails title={movieInfo.title} genre={genre} year={year} durationHours={durationHours} durationMinutes={durationMinutes} reviews={reviews} />
-        <View style={styles.content}>
-          <Text style={{ ...styles.movieDetails, ...styles.detailsText, ...styles.watchText }}>Where to watch:</Text>
-          <View style={{ ...styles.row, ...styles.tiles }}>
-            {providers.length > 0
-              ? providers.map(item => <Image source={{ uri: item.icon }} style={styles.providerLogo} />)
-              : <Text style={styles.detailsText}>Not available yet</Text>}
-          </View>
-        </View>
+        <WhereToWatch providers={providers} />
       </View>
     </View>
   );
