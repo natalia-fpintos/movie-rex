@@ -39,14 +39,12 @@ export const MovieInfoSection = ({ movieInfo, providers }) => {
       <View style={styles.hairlineDivider}>
         <MovieDetails title={movieInfo.title} genre={genre} year={year} durationHours={durationHours} durationMinutes={durationMinutes} reviews={reviews} />
         <View style={styles.content}>
-          <Text style={{ ...styles.movieDetails, ...styles.detailsText }}>Where to watch:</Text>
-          <FlatList
-            data={providers}
-            numColumns={3}
-            keyExtractor={({ item, index }) => index}
-            renderItem={item => <Image source={{ uri: item.item.icon }} style={styles.providerLogo} />}
-            ListEmptyComponent={<Text style={styles.detailsText}>Not available yet</Text>}
-          />
+          <Text style={{ ...styles.movieDetails, ...styles.detailsText, ...styles.watchText }}>Where to watch:</Text>
+          <View style={{ ...styles.row, ...styles.tiles }}>
+            {providers.length > 0
+              ? providers.map(item => <Image source={{ uri: item.icon }} style={styles.providerLogo} />)
+              : <Text style={styles.detailsText}>Not available yet</Text>}
+          </View>
         </View>
       </View>
     </View>
@@ -78,6 +76,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#5C5C5C',
   },
+  watchText: {
+    fontWeight: '600'
+  },
   movieDetails: {
     marginBottom: 16
   },
@@ -94,6 +95,9 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row'
+  },
+  tiles: {
+    flexWrap: 'wrap'
   },
   separator: {
     marginHorizontal: 12
