@@ -9,6 +9,7 @@ import { AssetPage } from './js/asset/asset-page.js';
 import { GenresPage } from './js/genres/genres-page.js';
 import { ResultsPage } from './js/results/results-page.js';
 import { SearchPage } from './js/search/search-page.js';
+import { WatchlistPage } from './js/watchlist/watchlist-page.js';
 
 import { enableScreens } from 'react-native-screens';
 
@@ -19,6 +20,7 @@ const Tab = createBottomTabNavigator();
 const HighlightsStack = createNativeStackNavigator();
 const GenresStack = createNativeStackNavigator();
 const SearchStack = createNativeStackNavigator();
+const WatchlistStack = createNativeStackNavigator();
 
 const HighlightsStackScreen = () => {
   return (
@@ -28,7 +30,11 @@ const HighlightsStackScreen = () => {
         name="Highlights"
         component={HighlightsPage}
       />
-      <HighlightsStack.Screen name="Asset" component={AssetPage} options={({ route }) => ({ title: route.params.name })} />
+      <HighlightsStack.Screen
+        name="Asset"
+        component={AssetPage}
+        options={({ route }) => ({ title: route.params.name })}
+      />
     </HighlightsStack.Navigator>
   );
 };
@@ -41,8 +47,16 @@ const GenresStackScreen = () => {
         name="Genres"
         component={GenresPage}
       />
-      <GenresStack.Screen name="SearchResults" component={ResultsPage} options={({ route }) => ({ title: route.params.genre })} />
-      <GenresStack.Screen name="Asset" component={AssetPage} options={({ route }) => ({ title: route.params.name })} />
+      <GenresStack.Screen
+        name="SearchResults"
+        component={ResultsPage}
+        options={({ route }) => ({ title: route.params.genre })}
+      />
+      <GenresStack.Screen
+        name="Asset"
+        component={AssetPage}
+        options={({ route }) => ({ title: route.params.name })}
+      />
     </GenresStack.Navigator>
   );
 };
@@ -55,9 +69,34 @@ const SearchStackScreen = () => {
         name="Search"
         component={SearchPage}
       />
-      <SearchStack.Screen name="SearchResults" component={ResultsPage} options={({ route }) => ({ title: route.params.searchTerm })} />
-      <SearchStack.Screen name="Asset" component={AssetPage} options={({ route }) => ({ title: route.params.name })} />
+      <SearchStack.Screen
+        name="SearchResults"
+        component={ResultsPage}
+        options={({ route }) => ({ title: route.params.searchTerm })}
+      />
+      <SearchStack.Screen
+        name="Asset"
+        component={AssetPage}
+        options={({ route }) => ({ title: route.params.name })}
+      />
     </SearchStack.Navigator>
+  );
+};
+
+const WatchlistStackScreen = () => {
+  return (
+    <WatchlistStack.Navigator>
+      <WatchlistStack.Screen
+        options={{ headerLargeTitle: true }}
+        name="Watchlist"
+        component={WatchlistPage}
+      />
+      <WatchlistStack.Screen
+        name="Asset"
+        component={AssetPage}
+        options={({ route }) => ({ title: route.params.name })}
+      />
+    </WatchlistStack.Navigator>
   );
 };
 
@@ -80,7 +119,7 @@ const App = () => {
                 iconName = 'ios-film';
                 break;
               case 'Watchlist':
-                iconName = 'ios-bookmark';
+                iconName = 'ios-star-outline';
                 break;
             }
             return <Ionicons name={iconName} size={size} color={color} />;
@@ -94,6 +133,7 @@ const App = () => {
         <Tab.Screen name="Highlights" component={HighlightsStackScreen} />
         <Tab.Screen name="Search" component={SearchStackScreen} />
         <Tab.Screen name="Genres" component={GenresStackScreen} />
+        <Tab.Screen name="Watchlist" component={WatchlistStackScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
