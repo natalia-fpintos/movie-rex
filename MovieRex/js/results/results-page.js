@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import {
-  SafeAreaView, 
+  SafeAreaView,
   StatusBar,
   StyleSheet,
   View,
-  FlatList,
-  ActivityIndicator
+  FlatList
 } from 'react-native';
 import Config from 'react-native-config';
 
 import { HorizontalImage } from '../images/horizontal-image-component.js';
+import { Loading } from '../loading/loading-component.js';
 
 
 export const ResultsPage = ({ route, navigation }) => {
@@ -17,19 +17,21 @@ export const ResultsPage = ({ route, navigation }) => {
   const [data, setData] = useState([]);
   const { genreId, seatchData } = route.params;
 
-
   useEffect(() => {
     if (genreId) {
       fetch(
-        `https://api.themoviedb.org/3/discover/movie\?api_key\=${Config.API_KEY}\&language\=en-UK&region=GB&sort_by=release_date.desc&include_adult=false&include_video=false&page=1&with_genres=${genreId}&year=2020&with_release_type=4&primary_release_date.lte=2020-06-18`, 
+        `https://api.themoviedb.org/3/discover/movie\?api_key\=${
+          Config.API_KEY
+        }\&language\=en-UK&region=GB&sort_by=release_date.desc&include_adult=false&include_video=false&page=1&with_genres=${genreId}&year=2020&with_release_type=4&primary_release_date.lte=2020-06-18`,
         {
           headers: {
             'Content-Type': 'application/json;charset=utf-8'
           }
-        })
-        .then((response) => response.json())
-        .then((json) => setData(json.results))
-        .catch((error) => console.error(error))
+        }
+      )
+        .then(response => response.json())
+        .then(json => setData(json.results))
+        .catch(error => console.error(error))
         .finally(() => setLoading(false));
     } else {
       setData(seatchData);
@@ -42,23 +44,30 @@ export const ResultsPage = ({ route, navigation }) => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <View style={styles.container}>
-          {isLoading ? <ActivityIndicator/> : (
+          {isLoading ? (
+            <Loading />
+          ) : (
             <FlatList
               style={styles.list}
               data={data}
               keyExtractor={({ id }, index) => id.toString()}
-              renderItem={({item}) => {
+              renderItem={({ item }) => {
                 if (!item.backdrop_path) {
                   return null;
                 }
                 return (
-                  <HorizontalImage 
-                    backdropPath={item.backdrop_path} 
+                  <HorizontalImage
+                    backdropPath={item.backdrop_path}
                     title={item.title}
-                    onPress={() => navigation.navigate('Asset', { id: item.id, name: item.title })}
+                    onPress={() =>
+                      navigation.navigate('Asset', {
+                        id: item.id,
+                        name: item.title
+                      })
+                    }
                   />
-              )}
-              }
+                );
+              }}
             />
           )}
         </View>
@@ -69,9 +78,15 @@ export const ResultsPage = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 'auto',
+    width: 'auto'
   },
   list: {
     paddingHorizontal: 24
+  },
+  loading: {
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });

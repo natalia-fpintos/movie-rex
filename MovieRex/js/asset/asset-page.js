@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import {
-  SafeAreaView, 
+  SafeAreaView,
   StatusBar,
   StyleSheet,
   FlatList,
   View,
-  Text,
-  ActivityIndicator
+  Text
 } from 'react-native';
 import Config from 'react-native-config';
 
 import { VerticalImage } from '../images/vertical-image-component.js';
 import { HorizontalImage } from '../images/horizontal-image-component.js';
 import { MovieInfoSection } from './movie-info-section-component.js';
+import { Loading } from '../loading/loading-component.js';
 
 
 export const AssetPage = ({ navigation, route }) => {
@@ -26,30 +26,35 @@ export const AssetPage = ({ navigation, route }) => {
 
   useEffect(() => {
     fetch(
-      `https://api.themoviedb.org/3/movie/${id}?api_key\=${Config.API_KEY}&language=en-UK`,
+      `https://api.themoviedb.org/3/movie/${id}?api_key\=${
+        Config.API_KEY
+      }&language=en-UK`,
       {
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
         }
-      })
-      .then((response) => response.json())
-      .then((json) => setData(json))
-      .catch((error) => console.error(error))
+      }
+    )
+      .then(response => response.json())
+      .then(json => setData(json))
+      .catch(error => console.error(error))
       .finally(() => setLoadingData(false));
 
     fetch(
-      `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key\=${Config.API_KEY}&language=en-UK&page=1`,
+      `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key\=${
+        Config.API_KEY
+      }&language=en-UK&page=1`,
       {
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
         }
-      })
-      .then((response) => response.json())
-      .then((json) => setMovies(json))
-      .catch((error) => console.error(error))
+      }
+    )
+      .then(response => response.json())
+      .then(json => setMovies(json))
+      .catch(error => console.error(error))
       .finally(() => setLoadingMovies(false));
 
-      
     // fetch(`https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/idlookup?country=UK&source_id=${id}&source=tmdb`, {
     //   "method": "GET",
     //   "headers": {
@@ -73,12 +78,17 @@ export const AssetPage = ({ navigation, route }) => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <View style={styles.container}>
-          {isLoadingData || isLoadingMovies || isLoadingProvider ? <ActivityIndicator/> : (
+          {isLoadingData || isLoadingMovies || isLoadingProvider ? (
+            <Loading />
+          ) : (
             <FlatList
               ListHeaderComponent={() => {
                 return (
                   <>
-                    <VerticalImage poster={data.poster_path} backdrop={data.backdrop_path} />
+                    <VerticalImage
+                      poster={data.poster_path}
+                      backdrop={data.backdrop_path}
+                    />
                     <MovieInfoSection movieInfo={data} providers={providers} />
                     <Text style={styles.movieTitle}>More movies like this</Text>
                   </>
@@ -87,21 +97,27 @@ export const AssetPage = ({ navigation, route }) => {
               data={movies.results}
               keyExtractor={({ id }, index) => id.toString()}
               style={styles.contentWrapper}
-              ListEmptyComponent={ () => <Text style={styles.moviesNotFound}>No movies found</Text>}
-              renderItem={({item}) => {
+              ListEmptyComponent={() => (
+                <Text style={styles.moviesNotFound}>No movies found</Text>
+              )}
+              renderItem={({ item }) => {
                 if (!item.backdrop_path) {
                   return null;
                 }
                 return (
-                  <HorizontalImage 
-                    backdropPath={item.backdrop_path} 
+                  <HorizontalImage
+                    backdropPath={item.backdrop_path}
                     title={item.title}
-                    onPress={() => navigation.push('Asset', { id: item.id, name: item.title })}
+                    onPress={() =>
+                      navigation.push('Asset', {
+                        id: item.id,
+                        name: item.title
+                      })
+                    }
                   />
-              )}
-              }
-            >
-            </FlatList>
+                );
+              }}
+            />
           )}
         </View>
       </SafeAreaView>
@@ -111,7 +127,7 @@ export const AssetPage = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 'auto',
+    width: 'auto'
   },
   list: {
     paddingHorizontal: 24
@@ -129,5 +145,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#5C5C5C',
     paddingLeft: 8
+  },
+  loading: {
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
