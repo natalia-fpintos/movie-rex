@@ -10,7 +10,7 @@ import {
 import { HorizontalImage } from '../images/horizontal-image-component.js';
 import { Loading } from '../loading/loading-component.js';
 
-export const MoviesList = ({ data, navigation, isLoading }) => {
+export const MoviesList = ({ emptyComponent, data, navigation, isLoading }) => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -23,6 +23,7 @@ export const MoviesList = ({ data, navigation, isLoading }) => {
               style={styles.list}
               data={data}
               keyExtractor={({ id }, index) => id.toString()}
+              ListEmptyComponent={emptyComponent}
               renderItem={({ item }) => {
                 if (!item.backdrop_path) {
                   return null;
