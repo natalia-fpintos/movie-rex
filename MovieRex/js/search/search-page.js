@@ -4,8 +4,6 @@ import {
   StatusBar,
   StyleSheet,
   View,
-  FlatList,
-  ActivityIndicator,
   Text
 } from 'react-native';
 import Config from 'react-native-config';
@@ -55,7 +53,7 @@ const SearchResults = ({ navigation, data, searchTerm }) => {
       {data.length > 3 ? (
         <TouchableOpacity
           onPress={() =>
-            navigation.push('SearchResults', { data: data, searchTerm: searchTerm })
+            navigation.push('SearchResults', { seatchData: data, searchTerm: searchTerm })
           }
         >
           <Text style={styles.link}>See all</Text>
@@ -64,7 +62,7 @@ const SearchResults = ({ navigation, data, searchTerm }) => {
       {data.length > 0 ? (
         data
           .slice(0, 3)
-          .map(item => <ResultRow navigation={navigation} item={item} />)
+          .map(item => <ResultRow key={item.id} navigation={navigation} item={item} />)
       ) : (
         <Text style={styles.moviesNotFound}>No movies found</Text>
       )}
@@ -171,6 +169,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8
   },
   movieTitle: {
+    fontSize: 16,
     fontWeight: '600',
     paddingHorizontal: 16,
     flex: 1,
@@ -184,8 +183,14 @@ const styles = StyleSheet.create({
     marginBottom: 16
   },
   link: {
+    fontSize: 16,
     alignSelf: 'flex-end',
     color: '#2daeeb',
     textDecorationLine: 'underline'
+  },
+  moviesNotFound: {
+    fontSize: 16,
+    color: '#5C5C5C',
+    paddingLeft: 8
   }
 });
