@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 import StarButton from '../buttons/star-button.js';
 
 const MovieDetails = ({
-  id,
+  item,
   title,
   genre,
   year,
@@ -16,7 +16,7 @@ const MovieDetails = ({
     <View style={styles.content}>
       <View style={{ ...styles.row, ...styles.starSection }}>
         <Text style={styles.movieTitle}>{title}</Text>
-        <StarButton id={id} />
+        <StarButton item={item} />
       </View>
       <View style={styles.row}>
         <Text style={{ ...styles.movieDetails, ...styles.detailsText }}>
@@ -84,7 +84,7 @@ export const MovieInfoSection = ({ movieInfo, providers }) => {
     <View style={styles.container}>
       <View style={styles.hairlineDivider}>
         <MovieDetails
-          id={movieInfo.id}
+          item={movieInfo}
           title={movieInfo.title}
           genre={genre}
           year={year}

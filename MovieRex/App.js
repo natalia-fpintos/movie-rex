@@ -13,7 +13,7 @@ import { AssetPage } from './js/asset/asset-page.js';
 import { GenresPage } from './js/genres/genres-page.js';
 import { ResultsPage } from './js/results/results-page.js';
 import { SearchPage } from './js/search/search-page.js';
-import { WatchlistPage } from './js/watchlist/watchlist-page.js';
+import WatchlistPage from './js/watchlist/watchlist-page.js';
 import { persistor, store } from './js/store/store-config.js';
 
 enableScreens();

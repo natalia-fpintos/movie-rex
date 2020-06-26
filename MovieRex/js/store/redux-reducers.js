@@ -7,9 +7,9 @@ const initialState = {
 export function watchlistReducer(state = initialState, action) {
   switch (action.type) {
     case WatchlistActions.ADD_ITEM:
-      return { watchlist: [...state.watchlist, action.id] };
+      return { watchlist: [...state.watchlist, action.item] };
     case WatchlistActions.REMOVE_ITEM:
-      return { watchlist: state.watchlist.filter(item => item !== action.id) };
+      return { watchlist: state.watchlist.filter(item => item.id !== action.item.id) };
     default:
       return state;
   }

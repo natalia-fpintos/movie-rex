@@ -6,7 +6,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { addItem, removeItem } from '../store/redux-actions.js';
 
 
-const StarButton = ({ id, watchlist, addOnClick, removeOnClick }) => {
+const StarButton = ({ item, watchlist, addOnClick, removeOnClick }) => {
   const [selected, setSelected] = useState(false);
   const icon = selected ? 'ios-star' : 'ios-star-outline';
   const onClick = selected ? removeOnClick : addOnClick;
@@ -15,12 +15,12 @@ const StarButton = ({ id, watchlist, addOnClick, removeOnClick }) => {
     console.log('using effect')
     console.log('selected', selected)
     console.log('watchlist', watchlist)
-    console.log('state.includes(id)', watchlist.includes(id))
-    watchlist.includes(id) ? setSelected(true) : setSelected(false);
+    console.log('found', watchlist.find(watchlistItem => watchlistItem.id === item.id))
+    watchlist.find(watchlistItem => watchlistItem.id === item.id) ? setSelected(true) : setSelected(false);
   });
 
   return (
-    <TouchableOpacity onPress={() => onClick(id)}>
+    <TouchableOpacity onPress={() => onClick(item)}>
       <Ionicons name={icon} size={25} color={'#fcba03'} />
     </TouchableOpacity>
   );
@@ -34,11 +34,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addOnClick: id => {
-      dispatch(addItem(id))
+    addOnClick: item => {
+      dispatch(addItem(item))
     },
-    removeOnClick: id => {
-      dispatch(removeItem(id))
+    removeOnClick: item => {
+      dispatch(removeItem(item))
     }
   }
 }

@@ -3,16 +3,16 @@ export const WatchlistActions = {
   REMOVE_ITEM: 'REMOVE_ITEM'
 };
 
-export const addItem = id => {
+export const addItem = item => {
   return {
     type: WatchlistActions.ADD_ITEM,
-    id
+    item
   };
 };
 
-export const removeItem = id => {
+export const removeItem = item => {
   return {
     type: WatchlistActions.REMOVE_ITEM,
-    id
+    item
   };
 };
