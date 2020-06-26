@@ -40,7 +40,7 @@ const WhereToWatch = ({ providers }) => {
 };
 
 export const MovieInfoSection = ({ movieInfo, providers }) => {
-  const genre = movieInfo.genres[0].name;
+  const genre = movieInfo.genres.length > 0 ? movieInfo.genres[0].name : 'Other';
   const year = movieInfo.release_date.split('-')[0];
   const durationHours = Math.floor(movieInfo.runtime / 60);
   const durationMinutes = movieInfo.runtime % 60;
