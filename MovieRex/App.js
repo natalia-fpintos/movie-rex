@@ -1,8 +1,12 @@
 import React from 'react';
+import {Text} from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
+import { enableScreens } from 'react-native-screens';
 
 import { HighlightsPage } from './js/highlights/highlights-page.js';
 import { AssetPage } from './js/asset/asset-page.js';
@@ -10,8 +14,7 @@ import { GenresPage } from './js/genres/genres-page.js';
 import { ResultsPage } from './js/results/results-page.js';
 import { SearchPage } from './js/search/search-page.js';
 import { WatchlistPage } from './js/watchlist/watchlist-page.js';
-
-import { enableScreens } from 'react-native-screens';
+import { persistor, store } from './js/store/store-config.js';
 
 enableScreens();
 
@@ -102,40 +105,44 @@ const WatchlistStackScreen = () => {
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer>
+          <Tab.Navigator
+            screenOptions={({ route }) => ({
+              tabBarIcon: ({ focused, color, size }) => {
+                let iconName;
 
-            switch (route.name) {
-              case 'Highlights':
-                iconName = 'ios-tv';
-                break;
-              case 'Search':
-                iconName = 'ios-search';
-                break;
-              case 'Genres':
-                iconName = 'ios-film';
-                break;
-              case 'Watchlist':
-                iconName = 'ios-star-outline';
-                break;
-            }
-            return <Ionicons name={iconName} size={size} color={color} />;
-          }
-        })}
-        tabBarOptions={{
-          activeTintColor: '#2daeeb',
-          inactiveTintColor: 'gray'
-        }}
-      >
-        <Tab.Screen name="Highlights" component={HighlightsStackScreen} />
-        <Tab.Screen name="Search" component={SearchStackScreen} />
-        <Tab.Screen name="Genres" component={GenresStackScreen} />
-        <Tab.Screen name="Watchlist" component={WatchlistStackScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+                switch (route.name) {
+                  case 'Highlights':
+                    iconName = 'ios-tv';
+                    break;
+                  case 'Search':
+                    iconName = 'ios-search';
+                    break;
+                  case 'Genres':
+                    iconName = 'ios-film';
+                    break;
+                  case 'Watchlist':
+                    iconName = 'ios-star-outline';
+                    break;
+                }
+                return <Ionicons name={iconName} size={size} color={color} />;
+              }
+            })}
+            tabBarOptions={{
+              activeTintColor: '#2daeeb',
+              inactiveTintColor: 'gray'
+            }}
+          >
+            <Tab.Screen name="Highlights" component={HighlightsStackScreen} />
+            <Tab.Screen name="Search" component={SearchStackScreen} />
+            <Tab.Screen name="Genres" component={GenresStackScreen} />
+            <Tab.Screen name="Watchlist" component={WatchlistStackScreen} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 };
 
