@@ -53,7 +53,7 @@ const SearchResults = ({ navigation, data, searchTerm }) => {
       {data.length > 3 ? (
         <TouchableOpacity
           onPress={() =>
-            navigation.push('SearchResults', { seatchData: data, searchTerm: searchTerm })
+            navigation.push('SearchResults', { searchData: data, searchTerm: searchTerm })
           }
         >
           <Text style={styles.link}>See all</Text>

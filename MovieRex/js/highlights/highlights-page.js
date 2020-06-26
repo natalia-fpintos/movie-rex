@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  View,
-  FlatList
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 import Config from 'react-native-config';
 
-import { HorizontalImage } from '../images/horizontal-image-component.js';
-import { Loading } from '../loading/loading-component.js';
-
+import { MoviesList } from '../movies-list/movies-list-component.js';
 
 export const HighlightsPage = ({ navigation }) => {
   const [isLoading, setLoading] = useState(true);
@@ -34,39 +26,7 @@ export const HighlightsPage = ({ navigation }) => {
   }, []);
 
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <View style={styles.container}>
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <FlatList
-              style={styles.list}
-              data={data}
-              keyExtractor={({ id }, index) => id.toString()}
-              renderItem={({ item }) => {
-                if (!item.backdrop_path) {
-                  return null;
-                }
-                return (
-                  <HorizontalImage
-                    backdropPath={item.backdrop_path}
-                    title={item.title}
-                    onPress={() =>
-                      navigation.navigate('Asset', {
-                        id: item.id,
-                        name: item.title
-                      })
-                    }
-                  />
-                );
-              }}
-            />
-          )}
-        </View>
-      </SafeAreaView>
-    </>
+    <MoviesList navigation={navigation} data={data} isLoading={isLoading} />
   );
 };
 
