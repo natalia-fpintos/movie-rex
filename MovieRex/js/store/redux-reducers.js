@@ -1,9 +1,15 @@
-export function watchlistReducer(state = [], action) {
+import { WatchlistActions } from './redux-actions.js';
+
+const initialState = {
+  watchlist: []
+};
+
+export function watchlistReducer(state = initialState, action) {
   switch (action.type) {
-    case 'ADD_ITEM':
-      return [...state, action.item];
-    case 'REMOVE_ITEM':
-      return state.filter(item => item.id !== action.item.id);
+    case WatchlistActions.ADD_ITEM:
+      return { watchlist: [...state.watchlist, action.id] };
+    case WatchlistActions.REMOVE_ITEM:
+      return { watchlist: state.watchlist.filter(item => item !== action.id) };
     default:
       return state;
   }

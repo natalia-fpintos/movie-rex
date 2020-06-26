@@ -1,25 +1,41 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-} from 'react-native';
+import { StyleSheet, View, Text, Image } from 'react-native';
 
+import StarButton from '../buttons/star-button.js';
 
-const MovieDetails = ({ title, genre, year, durationHours, durationMinutes, reviews }) => {
+const MovieDetails = ({
+  id,
+  title,
+  genre,
+  year,
+  durationHours,
+  durationMinutes,
+  reviews
+}) => {
   return (
     <View style={styles.content}>
-      <Text style={styles.movieTitle}>{ title }</Text>
-      <View style={styles.row}>
-        <Text style={{ ...styles.movieDetails, ...styles.detailsText }}>{genre}</Text>
-        <Text style={{ ...styles.detailsText, ...styles.separator }}>•</Text>
-        <Text style={{ ...styles.movieDetails, ...styles.detailsText }}>{year}</Text>
-        <Text style={{ ...styles.detailsText, ...styles.separator }}>•</Text>
-        <Text style={{ ...styles.movieDetails, ...styles.detailsText }}>{durationHours}h {durationMinutes}m</Text>
+      <View style={{ ...styles.row, ...styles.starSection }}>
+        <Text style={styles.movieTitle}>{title}</Text>
+        <StarButton id={id} />
       </View>
       <View style={styles.row}>
-        <Image source={require('../../images/tomato.png')} style={styles.tomato} />
+        <Text style={{ ...styles.movieDetails, ...styles.detailsText }}>
+          {genre}
+        </Text>
+        <Text style={{ ...styles.detailsText, ...styles.separator }}>•</Text>
+        <Text style={{ ...styles.movieDetails, ...styles.detailsText }}>
+          {year}
+        </Text>
+        <Text style={{ ...styles.detailsText, ...styles.separator }}>•</Text>
+        <Text style={{ ...styles.movieDetails, ...styles.detailsText }}>
+          {durationHours}h {durationMinutes}m
+        </Text>
+      </View>
+      <View style={styles.row}>
+        <Image
+          source={require('../../images/tomato.png')}
+          style={styles.tomato}
+        />
         <Text style={styles.detailsText}>{reviews}</Text>
       </View>
     </View>
@@ -29,31 +45,54 @@ const MovieDetails = ({ title, genre, year, durationHours, durationMinutes, revi
 const WhereToWatch = ({ providers }) => {
   return (
     <View style={styles.content}>
-      <Text style={{ ...styles.movieDetails, ...styles.detailsText, ...styles.watchText }}>Where to watch:</Text>
+      <Text
+        style={{
+          ...styles.movieDetails,
+          ...styles.detailsText,
+          ...styles.watchText
+        }}
+      >
+        Where to watch:
+      </Text>
       <View style={{ ...styles.row, ...styles.tiles }}>
-        {providers.length > 0
-          ? providers.map(item => <Image key={item.id} source={{ uri: item.icon }} style={styles.providerLogo} />)
-          : <Text style={styles.detailsText}>Not available yet</Text>}
+        {providers.length > 0 ? (
+          providers.map(item => (
+            <Image
+              key={item.id}
+              source={{ uri: item.icon }}
+              style={styles.providerLogo}
+            />
+          ))
+        ) : (
+          <Text style={styles.detailsText}>Not available yet</Text>
+        )}
       </View>
     </View>
   );
 };
 
 export const MovieInfoSection = ({ movieInfo, providers }) => {
-  const genre = movieInfo.genres.length > 0 ? movieInfo.genres[0].name : 'Other';
+  const genre =
+    movieInfo.genres.length > 0 ? movieInfo.genres[0].name : 'Other';
   const year = movieInfo.release_date.split('-')[0];
   const durationHours = Math.floor(movieInfo.runtime / 60);
   const durationMinutes = movieInfo.runtime % 60;
-  const reviews = movieInfo.vote_count > 0 ? `${movieInfo.vote_average * 10}%` : 'No votes';
+  const reviews =
+    movieInfo.vote_count > 0 ? `${movieInfo.vote_average * 10}%` : 'No votes';
 
   return (
     <View style={styles.container}>
       <View style={styles.hairlineDivider}>
-        <MovieDetails title={movieInfo.title} genre={genre} year={year} durationHours={durationHours} durationMinutes={durationMinutes} reviews={reviews} />
-        {providers.length > 0
-          ? <WhereToWatch providers={providers} />
-          : null
-        }
+        <MovieDetails
+          id={movieInfo.id}
+          title={movieInfo.title}
+          genre={genre}
+          year={year}
+          durationHours={durationHours}
+          durationMinutes={durationMinutes}
+          reviews={reviews}
+        />
+        {providers.length > 0 ? <WhereToWatch providers={providers} /> : null}
       </View>
     </View>
   );
@@ -66,9 +105,12 @@ const styles = StyleSheet.create({
   content: {
     marginBottom: 16
   },
+  starSection: {
+    justifyContent: 'space-between'
+  },
   hairlineDivider: {
     paddingBottom: 5,
-    paddingLeft: 8,
+    paddingHorizontal: 8,
     borderBottomWidth: 0.5,
     borderBottomColor: '#C4C4C4',
     marginBottom: 16
@@ -80,7 +122,7 @@ const styles = StyleSheet.create({
   },
   detailsText: {
     fontSize: 16,
-    color: '#5C5C5C',
+    color: '#5C5C5C'
   },
   watchText: {
     fontWeight: '600'
