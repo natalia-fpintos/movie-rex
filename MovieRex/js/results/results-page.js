@@ -7,7 +7,7 @@ import { MoviesList } from '../movies-list/movies-list-component.js';
 export const ResultsPage = ({ route, navigation }) => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const { genreId, seatchData } = route.params;
+  const { genreId, searchData } = route.params;
 
   useEffect(() => {
     if (genreId) {
@@ -26,7 +26,7 @@ export const ResultsPage = ({ route, navigation }) => {
         .catch(error => console.error(error))
         .finally(() => setLoading(false));
     } else {
-      setData(seatchData);
+      setData(searchData);
       setLoading(false);
     }
   }, []);
