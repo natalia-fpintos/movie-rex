@@ -12,10 +12,6 @@ const StarButton = ({ item, watchlist, addOnClick, removeOnClick }) => {
   const onClick = selected ? removeOnClick : addOnClick;
 
   useEffect(() => {
-    console.log('using effect')
-    console.log('selected', selected)
-    console.log('watchlist', watchlist)
-    console.log('found', watchlist.find(watchlistItem => watchlistItem.id === item.id))
     watchlist.find(watchlistItem => watchlistItem.id === item.id) ? setSelected(true) : setSelected(false);
   });
 
