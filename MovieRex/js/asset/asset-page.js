@@ -21,7 +21,7 @@ export const AssetPage = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   const [isLoadingMovies, setLoadingMovies] = useState(true);
   const [movies, setMovies] = useState([]);
-  const [isLoadingProvider, setLoadingProvider] = useState(false);
+  const [isLoadingProvider, setLoadingProvider] = useState(true);
   const [providers, setProviders] = useState([]);
 
   useEffect(() => {
@@ -55,22 +55,23 @@ export const AssetPage = ({ navigation, route }) => {
       .catch(error => console.error(error))
       .finally(() => setLoadingMovies(false));
 
-    // fetch(`https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/idlookup?country=UK&source_id=${id}&source=tmdb`, {
-    //   "method": "GET",
-    //   "headers": {
-    //     "x-rapidapi-host": "utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com",
-    //     "x-rapidapi-key": Config.UTELLY_API_KEY
-    //   }
-    // })
-    // .then(response => response.json())
-    // .then((json) => {
-    //   if ('collection' in json) {
-    //     return setProviders(json.collection.locations);
-    //   }
-    //   return setProviders([]);
-    // })
-    // .catch((error) => console.error(error))
-    // .finally(() => setLoadingProvider(false));
+    fetch(`https://utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com/idlookup?country=UK&source_id=${id}&source=tmdb`, {
+      "method": "GET",
+      "headers": {
+        "x-rapidapi-host": "utelly-tv-shows-and-movies-availability-v1.p.rapidapi.com",
+        "x-rapidapi-key": Config.UTELLY_API_KEY
+      }
+    })
+    .then(response => response.json())
+    .then((json) => {
+      if ('collection' in json) {
+        return setProviders(json.collection.locations);
+      }
+      console.log('There was an error with Utelly API', json)
+      return setProviders([]);
+    })
+    .catch((error) => console.error(error))
+    .finally(() => setLoadingProvider(false));
   }, []);
 
   return (
